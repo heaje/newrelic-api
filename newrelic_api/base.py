@@ -53,7 +53,7 @@ class Resource(object):
 
         return json_response
 
-    def _put(self, *args, **kwargs):
+    def _put(self, get_raw_response=False, *args, **kwargs):
         """
         A wrapper for putting things. It will also json encode your 'data' parameter
 
@@ -69,9 +69,12 @@ class Resource(object):
         response = requests.put(*args, **kwargs)
         if not response.ok:
             raise NewRelicAPIServerException('{}: {}'.format(response.status_code, response.text))
-        return response.json()
+        if get_raw_response:
+            return response
+        else:
+            return response.json()
 
-    def _post(self, *args, **kwargs):
+    def _post(self, get_raw_response=False, *args, **kwargs):
         """
         A wrapper for posting things. It will also json encode your 'data' parameter
 
@@ -87,9 +90,12 @@ class Resource(object):
         response = requests.post(*args, **kwargs)
         if not response.ok:
             raise NewRelicAPIServerException('{}: {}'.format(response.status_code, response.text))
-        return response.json()
+        if get_raw_response:
+            return response
+        else:
+            return response.json()
 
-    def _delete(self, *args, **kwargs):
+    def _delete(self, get_raw_response=False, *args, **kwargs):
         """
         A wrapper for deleting things
 
@@ -103,7 +109,11 @@ class Resource(object):
         response = requests.delete(*args, **kwargs)
         if not response.ok:
             raise NewRelicAPIServerException('{}: {}'.format(response.status_code, response.text))
-        return response.json()
+
+        if get_raw_response:
+            return response
+        else:
+            return response.json()
 
     def build_param_string(self, params):
         """
