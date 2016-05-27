@@ -65,7 +65,8 @@ class Resource(object):
             if there is an error from New Relic
         """
         if 'data' in kwargs:
-            kwargs['data'] = json.dumps(kwargs['data'])
+	    if type(kwargs['data']) is dict:
+                kwargs['data'] = json.dumps(kwargs['data'])
         response = requests.put(*args, **kwargs)
         if not response.ok:
             raise NewRelicAPIServerException('{}: {}'.format(response.status_code, response.text))
@@ -86,7 +87,8 @@ class Resource(object):
             if there is an error from New Relic
         """
         if 'data' in kwargs:
-            kwargs['data'] = json.dumps(kwargs['data'])
+	    if type(kwargs['data']) is dict:
+                kwargs['data'] = json.dumps(kwargs['data'])
         response = requests.post(*args, **kwargs)
         if not response.ok:
             raise NewRelicAPIServerException('{}: {}'.format(response.status_code, response.text))

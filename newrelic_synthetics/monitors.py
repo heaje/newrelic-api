@@ -184,6 +184,37 @@ class Monitors(Synthetics):
         else:
             return False
 
+    def add_label(self, id, label):
+        """
+        This API endpoint will add a label to an existing monitor
+
+        :type id: str
+        :param id: The ID of the monitor to update
+
+        :type label: str
+        :param label: A string representing 'category:label' to be added to the monitor.
+            Send a GET request to https://synthetics.newrelic.com/synthetics/api/v1/monitors/labels to get a list
+            of current labels.
+
+        :rtype: bool
+        :return: Returns True on success, False otherwise
+
+        ::
+
+        """
+
+        response = self._post(
+            url='{0}monitors/{1}/labels'.format(self.URL, id),
+            headers=self.headers,
+            data=label,
+            get_raw_response=True
+        )
+
+        if response.ok:
+            return True
+        else:
+            return False
+
     def update_script(self, id, scriptText, scriptLocations=None):
         """
             This API endpoint will update an existing SCRIPT_BROWSER or SCRIPT_API monitor with the appropriate script
